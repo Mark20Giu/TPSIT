@@ -1,6 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.*;
 public class Server {
     ServerSocket server;
     Socket client;
@@ -8,6 +7,7 @@ public class Server {
     float num2;
     float risultato;
     char operazione;
+    String[] numeri;
     Operazioni operazioni;
     BufferedReader inDalCliente;
     DataOutputStream outVersoClient;
@@ -34,29 +34,29 @@ public class Server {
     public void comunica() throws IOException
     {
         try{
-            String[] nums = inDalCliente.readLine().split(" ");
-            num1 = Float.parseFloat(nums[0]);
-            num2 = Float.parseFloat(nums[2]);
-            operazione = nums[1].charAt(0);
+            numeri = inDalCliente.readLine().split(" ");
+            num1 = Float.parseFloat(numeri[0]);
+            num2 = Float.parseFloat(numeri[2]);
+            operazione = numeri[1].charAt(0);
             operazioni = new Operazioni(num1, num2);
             switch(operazione) {
-                case '+' : {
+                case '+': {
                     outVersoClient.writeBytes(String.valueOf(operazioni.addizione()) + "\n");
                 break;
                 }
-                case '-' : {
+                case '-': {
                     outVersoClient.writeBytes(String.valueOf(operazioni.sottrazione()) + "\n");
                     break;
                 }
-                case '/' : {
+                case '/': {
                     outVersoClient.writeBytes(String.valueOf(operazioni.divisione()) + "\n");
                     break;
                 }
-                case '*' : {
+                case '*':{
                     outVersoClient.writeBytes(String.valueOf(operazioni.moltiplicazione()) + "\n");
                     break;
                 }
-                default : {
+                default:{
                     outVersoClient.writeBytes("Errore" + "\n");
                     break;
                 }
