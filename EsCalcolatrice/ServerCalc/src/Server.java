@@ -4,8 +4,9 @@ import java.util.*;
 public class Server {
     ServerSocket server;
     Socket client;
-    String stringaRicevuta;
-    String stringaModificata;
+    int num1;
+    int num2;
+    int ris;
     BufferedReader inDalCliente;
     DataOutputStream outVersoClient;
     
@@ -31,13 +32,8 @@ public class Server {
     public void comunica()
     {
         try{
-            System.out.println("Benvenuto");
-            stringaRicevuta = inDalCliente.readLine();
-            System.out.println("Ricevuto");
-            stringaModificata = stringaRicevuta.toUpperCase();
-            System.out.println("Invio risposta");
-            outVersoClient.writeBytes(stringaModificata+"\n");
-            System.out.println("Fine");
+            num1=inDalCliente.read();
+            System.out.println(num1);
             client.close();
         }
         catch(Exception e)
