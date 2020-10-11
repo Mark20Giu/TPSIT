@@ -6,9 +6,7 @@ public class Client {
     int portaServer = 6789;
     Socket mioSocket;
     Scanner tastiera;
-    int input1;
-    int input2;
-    int risultato;
+    String operazione;
     DataOutputStream outVersoServer;
     BufferedReader inDalServer;
     
@@ -35,11 +33,10 @@ public class Client {
     public void comunica()
     {
         try {
-            System.out.println("inserire primo numero");
-            input1 = tastiera.nextInt();
-            System.out.println("Invio primo numero");
-            outVersoServer.writeInt(input1);
-            System.out.println("Chiusura connessione");
+            System.out.println("Inserire l'operazione (Ad esempio 1 + 1)");
+            operazione = tastiera.nextLine();
+            outVersoServer.writeBytes(operazione + "\n");
+            System.out.println("Risultato: " + inDalServer.readLine());
             mioSocket.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());

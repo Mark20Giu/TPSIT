@@ -4,9 +4,11 @@ import java.util.*;
 public class Server {
     ServerSocket server;
     Socket client;
-    int num1;
-    int num2;
-    int ris;
+    float num1;
+    float num2;
+    float risultato;
+    char operazione;
+    Operazioni operazioni;
     BufferedReader inDalCliente;
     DataOutputStream outVersoClient;
     
@@ -29,11 +31,36 @@ public class Server {
         return client;
     }
     
-    public void comunica()
+    public void comunica() throws IOException
     {
         try{
-            num1=inDalCliente.read();
-            System.out.println(num1);
+            String[] nums = inDalCliente.readLine().split(" ");
+            num1 = Float.parseFloat(nums[0]);
+            num2 = Float.parseFloat(nums[2]);
+            operazione = nums[1].charAt(0);
+            operazioni = new Operazioni(num1, num2);
+            switch(operazione) {
+                case '+' : {
+                    outVersoClient.writeBytes(String.valueOf(operazioni.addizione()) + "\n");
+                break;
+                }
+                case '-' : {
+                    outVersoClient.writeBytes(String.valueOf(operazioni.sottrazione()) + "\n");
+                    break;
+                }
+                case '/' : {
+                    outVersoClient.writeBytes(String.valueOf(operazioni.divisione()) + "\n");
+                    break;
+                }
+                case '*' : {
+                    outVersoClient.writeBytes(String.valueOf(operazioni.moltiplicazione()) + "\n");
+                    break;
+                }
+                default : {
+                    outVersoClient.writeBytes("Errore" + "\n");
+                    break;
+                }
+            }
             client.close();
         }
         catch(Exception e)
